@@ -15,6 +15,9 @@ parser.add_argument("-n", "--number", help="number of votes to cast", type=int)
 parser.add_argument("-l", "--list", help="song list, recoverable on the voting link on the site", type=int)
 group.add_argument("-r", "--random", help="make random votes", action="store_true")
 group.add_argument("-c", "--choice", help="number of songs to vote randomly", type=int, default=1)
+parser.add_argument("-i", "--idSong",
+                    help="choose the id of the song to vote, if specified, the other filters are not taken into account",
+                    type=int, default=1)
 args = parser.parse_args()
 
 verbosity = args.verbose
@@ -37,9 +40,11 @@ def vote_all_song(all_song):
 def main():
     vote = RdjVoting()
     all_song = vote.get_song_list()
-    if args.list:
+    if args.idSong:
+        all_song = list(filter(lambda item: item.song_id == str(args.idSong), all_song))
+    if args.list and not args.idSong:
         all_song = list(filter(lambda item: item.song_list == str(args.list), all_song))
-    if args.random:
+    if args.random and not args.idSong:
         all_song = random.choices(all_song, k=args.choice)
     if args.number:
         for _ in range(args.number):
