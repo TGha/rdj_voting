@@ -17,7 +17,7 @@ group.add_argument("-r", "--random", help="make random votes", action="store_tru
 group.add_argument("-c", "--choice", help="number of songs to vote randomly", type=int, default=1)
 parser.add_argument("-i", "--idSong",
                     help="choose the id of the song to vote, if specified, the other filters are not taken into account",
-                    type=int, default=1)
+                    type=int)
 args = parser.parse_args()
 
 verbosity = args.verbose
